@@ -1,0 +1,42 @@
+version: '2' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  angular: # name of the first service
+    build:
+      dockerfile: DockerFile-dev
+      context: ng-demo
+    ports:
+      - '4200:4200' # specify port forewarding
+    volumes:
+      - ./ng-demo/:/usr/src/app/
+      - /usr/src/app/node_modules/
+
+  mongo: # name of the third service
+    image: mongo # specify image to build container from
+    ports:
+      - '27017:27017' # specify port forewarding
+    volumes: 
+      - /data/db:/data/db #host-path:container-path
+
+  express: #name of the second service
+    build:
+      dockerfile: DockerFile-dev
+      context: node-demo
+    ports:
+      - '3000:3000' #specify ports forewarding
+    links:
+      - mongo # link this service to the database service
+    environment:
+      WAIT_HOSTS: mongo:27017
+    volumes:
+      - ./node-demo/:/usr/src/app/
+      - /usr/src/app/node_modules/
+    
+  proxy:
+    build: proxy
+    ports:
+      - '80:80'
+    links:
+      - angular
+      - express
