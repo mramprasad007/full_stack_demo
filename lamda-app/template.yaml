@@ -11,51 +11,51 @@ Globals:
     Timeout: 3
 
 Resources:
-  AddUserFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: add-user/
-      Handler: app.lambdaHandler
-      Runtime: nodejs8.10
-      Events:
-        AddUser:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /addUser
-            Method: post
   GetUserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: get-user/
-      Handler: app.lambdaHandler
+      CodeUri: user/
+      Handler: app.get
       Runtime: nodejs8.10
       Events:
         GetUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getUser
+            Path: /user
             Method: get
+  AddUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/
+      Handler: app.post
+      Runtime: nodejs8.10
+      Events:
+        AddUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user
+            Method: post
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   AddUserApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/addUser/"
+    Description: "API Gateway endpoint URL for Prod stage for AddUserApi"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/user/"
   AddUserFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
+    Description: "AddUserFunction Lambda Function ARN"
+    Value: !GetAtt AddUserFunction.Arn
   AddUserFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Description: "AddUserFunctionIamRole Implicit IAM Role created"
+    Value: !GetAtt AddUserFunctionRole.Arn
   GetUserApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/getUser/"
+    Description: "API Gateway endpoint URL for Prod stage for GetUserApi"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/user/"
   GetUserFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
+    Description: "GetUserFunction Lambda Function ARN"
+    Value: !GetAtt GetUserFunction.Arn
   GetUserFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Description: "GetUserFunctionIamRole Implicit IAM Role created"
+    Value: !GetAtt GetUserFunctionRole.Arn
   

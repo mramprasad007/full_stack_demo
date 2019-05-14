@@ -1,7 +1,12 @@
 // const axios = require('axios')
 // const url = 'http://checkip.amazonaws.com/';
 let response;
-
+const createResponse = (statusCode, body) => {
+    return {
+        "statusCode": statusCode,
+        "body": JSON.stringify(body) || ""
+    }
+}
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -14,21 +19,30 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  * 
  */
-exports.lambdaHandler = async (event, context) => {
+
+exports.get = async (event, context) => {
     try {
         var req = event.queryStringParameters;
-       
-        // const ret = await axios(url);
-        response = {
-            'statusCode': 200,
-            'body': JSON.stringify({
-                message: `hello ${req.name}`,
-                // location: ret.data.trim()
-            })
+        var body = {
+            message: `hello ${req.name}`,
         }
+        response = createResponse(200,body);
     } catch (err) {
         return err;
     }
-
     return response
 };
+
+exports.post = async (event, context) => {
+    try {
+        var req = JSON.parse(event.body)
+        var body = {
+            message: `hello ${req.name}`,
+        }
+        response = createResponse(200,body);
+    } catch (err) {
+        return err;
+    }
+    return response
+};
+
