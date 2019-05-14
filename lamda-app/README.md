@@ -204,3 +204,10 @@ sam logs -n HelloWorldFunction --stack-name sam-app --tail
 ```
 
 **NOTE**: Alternatively this could be part of package.json scripts section.
+
+#upload to S3
+sam package --template-file template.yaml --s3-bucket ram-lambda-demo --output-template-file out.yaml;
+
+#create cloud formation stsck
+
+aws cloudformation deploy --template-file /Users/coda/Desktop/ng-node-mongo-spring-mysql/lamda-app/out.yaml --stack-name cfdemo
