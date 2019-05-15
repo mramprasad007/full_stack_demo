@@ -2,15 +2,13 @@
 // const url = 'http://checkip.amazonaws.com/';
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
-var documentClient = new AWS.DynamoDB.DocumentClient();
 let dynamo;
 let tableName;
 if(process.env.AWS_SAM_LOCAL === 'true'){
     dynamo = new AWS.DynamoDB.DocumentClient({
-        region:'localhost',
-        endpoint: 'http://localhost:8000/',
+        endpoint: 'http://docker.for.mac.localhost:8000',
       });
-    tableName = "User"
+    tableName = "Users"
 }else{
     dynamo = new AWS.DynamoDB.DocumentClient()
     tableName = process.env.TABLE_NAME;
@@ -47,17 +45,13 @@ exports.get = async (event, context, callback) => {
         let getItem = new Promise((res, rej) => {
             dynamo.get(params, function(err, data) {
               if (err) {
-                console.log("Error", err);
                 rej(err);
               } else {
-                console.log("Success", data);
-                res(data);
+                res(data.item);
               }
             }); 
         });
-    
         const result = await getItem;
-        console.log(result);    
         return createResponse(200,result) 
     } catch (err) {
         return createResponse(500,err);
@@ -78,17 +72,13 @@ exports.post = async (event, context, callback) => {
         let putItem = new Promise((res, rej) => {
             dynamo.put(params, function(err, data) {
               if (err) {
-                console.log("Error", err);
                 rej(err);
               } else {
-                console.log("Success", data);
                 res(data);
               }
             }); 
         });
-    
         const result = await putItem;
-        console.log(result);    
         return createResponse(200,result) 
     } catch (err) {
         return createResponse(500,err);
