@@ -4,6 +4,7 @@
   "description": "Lambda demo",
   "main": "app.js",
   "dependencies": {
+    "aws-sdk": "^2.455.0",
     "axios": "^0.18.0"
   },
   "scripts": {

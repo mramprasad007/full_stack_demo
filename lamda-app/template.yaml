@@ -17,6 +17,10 @@ Resources:
       CodeUri: user/
       Handler: app.get
       Runtime: nodejs8.10
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref UserTable
       Events:
         GetUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -29,13 +33,25 @@ Resources:
       CodeUri: user/
       Handler: app.post
       Runtime: nodejs8.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref UserTable
       Events:
         AddUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /user
             Method: post
-
+  UserTable:
+   Type: AWS::Serverless::SimpleTable
+   Properties:
+      PrimaryKey:
+         Name: userName
+         Type: String
+      ProvisionedThroughput:
+         ReadCapacityUnits: 1
+         WriteCapacityUnits: 1
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
