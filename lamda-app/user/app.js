@@ -47,7 +47,7 @@ exports.get = async (event, context, callback) => {
               if (err) {
                 rej(err);
               } else {
-                res(data.item);
+                res(data.Item);
               }
             }); 
         });
