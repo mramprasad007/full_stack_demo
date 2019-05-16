@@ -21,12 +21,12 @@ phases:
     post_build:
          commands:
             - aws s3 cp ${BUILD_FOLDER} s3://${S3_BUCKET} --recursive --acl public-read --cache-control "max-age=${CACHE_CONTROL}"
-            - rm -rf node_modules
-            - mv * ../
+            - cd ..
+            - mv appspec.yml ${BASE_FOLDER}/${BUILD_FOLDER}
+            - mv server/* ${BASE_FOLDER}/${BUILD_FOLDER}
             - echo Build completed on `date`
 artifacts:
     files:
-        - '${BUILD_FOLDER}/*'
-        - appspec.yml
-        - '${SERVER_FOLDER}/*'
+        - '**/*'
+    base-directory: '${BASE_FOLDER}/${BUILD_FOLDER}'
     discard-paths: yes
