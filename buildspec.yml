@@ -6,6 +6,7 @@ env:
         BUILD_FOLDER: "dist"
         BASE_FOLDER: "ng-demo"
         BUILD_ENV: "prod"
+        SERVER_FOLDER: "server"
 phases:
     install:
         commands:
@@ -25,4 +26,5 @@ artifacts:
     files:
         - '${BASE_FOLDER}/${BUILD_FOLDER}/*'
         - appspec.yml
+        - '${SERVER_FOLDER}/*'
     discard-paths: yes
