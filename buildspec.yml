@@ -3,14 +3,13 @@ env:
     variables:
         CACHE_CONTROL: "86400"
         S3_BUCKET: "devops-artifacts-codebuild"
-        BASE_FOLDER: "ng-demo"
         BUILD_ENV: "prod"
         SERVER_FOLDER: "server"
 phases:
     install:
         commands:
             - echo Installing source NPM dependencies...
-            - cd ${BASE_FOLDER}
+            - cd ng-demo
             - npm install
             - npm install -g @angular/cli
     build:
@@ -23,7 +22,7 @@ phases:
             - echo Build completed on `date`
 artifacts:
     files:
-        - '${BASE_FOLDER}/dist/*'
+        - ng-demo/dist/*
         - appspec.yml
         - '${SERVER_FOLDER}/*'
     discard-paths: yes
