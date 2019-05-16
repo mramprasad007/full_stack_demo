@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+
+hooks:
+  BeforeInstall:
+    - location: nginx/install_dependencies
+      timeout: 300
+      runas: root
+    - location: nginx/start_server
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: nginx/stop_server
+      timeout: 300
+      runas: root
+
