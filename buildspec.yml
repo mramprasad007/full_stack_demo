@@ -3,13 +3,15 @@ env:
     variables:
         CACHE_CONTROL: "86400"
         S3_BUCKET: "devops-artifacts-codebuild"
+        BUILD_FOLDER: "dist"
+        BASE_FOLDER: "ng-demo"
         BUILD_ENV: "prod"
         SERVER_FOLDER: "server"
 phases:
     install:
         commands:
             - echo Installing source NPM dependencies...
-            - cd ng-demo
+            - cd ${BASE_FOLDER}
             - npm install
             - npm install -g @angular/cli
     build:
@@ -18,11 +20,11 @@ phases:
             - ng build --${BUILD_ENV}
     post_build:
          commands:
-            - aws s3 cp dist s3://${S3_BUCKET} --recursive --acl public-read --cache-control "max-age=${CACHE_CONTROL}"
+            - aws s3 cp ${BUILD_FOLDER} s3://${S3_BUCKET} --recursive --acl public-read --cache-control "max-age=${CACHE_CONTROL}"
+            - rm -rf node_modules
             - echo Build completed on `date`
 artifacts:
     files:
-        - ng-demo/dist/*
+        - '${BASE_FOLDER}/*'
         - appspec.yml
         - '${SERVER_FOLDER}/*'
-    discard-paths: yes
