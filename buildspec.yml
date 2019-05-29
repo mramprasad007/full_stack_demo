@@ -9,6 +9,8 @@ env:
         SERVER_FOLDER: "server"
 phases:
     install:
+        runtime-versions:
+            nodejs: 10
         commands:
             - echo Installing source NPM dependencies...
             - cd ${BASE_FOLDER}
