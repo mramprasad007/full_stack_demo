@@ -14,13 +14,13 @@ pipeline {
                 npm install
             }
         }
-        stage('Build') {
-            steps {
-                echo $PWD
-                echo 'Build started'
-                ng build --'${BUILD_ENV}'   
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         echo $PWD
+        //         echo 'Build started'
+        //         ng build --'${BUILD_ENV}'   
+        //     }
+        // }
     }
     post {
         always {
