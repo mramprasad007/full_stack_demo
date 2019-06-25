@@ -9,14 +9,14 @@ pipeline {
         stage('Install') {
             steps {
                 echo 'Installing source NPM dependencies...'
-                cd ${BASE_FOLDER}
+                cd '${BASE_FOLDER}'
                 npm install
             }
         }
         stage('Build') {
             steps {
                 echo 'Build started'
-                ng build --${BUILD_ENV}   
+                ng build --'${BUILD_ENV}'   
             }
         }
         stage('Archive') {
