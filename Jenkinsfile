@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Install') {
             steps {
+                echo $PWD
                 echo 'Installing source NPM dependencies...'
                 cd '${BASE_FOLDER}'
                 npm install
@@ -15,6 +16,7 @@ pipeline {
         }
         stage('Build') {
             steps {
+                echo $PWD
                 echo 'Build started'
                 ng build --'${BUILD_ENV}'   
             }
