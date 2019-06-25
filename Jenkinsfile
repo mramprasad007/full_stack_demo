@@ -19,11 +19,6 @@ pipeline {
                 ng build --'${BUILD_ENV}'   
             }
         }
-        stage('Archive') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
     post {
         always {
