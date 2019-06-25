@@ -20,13 +20,14 @@ pipeline {
                 echo 'Build started'
                 cd ${BASE_FOLDER}
                 ng build --${BUILD_ENV}
+                echo 'Build Success'
                 '''
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '${BASE_FOLDER}/${BUILD_FOLDER}/*'
+            archiveArtifacts artifacts: '${BASE_FOLDER}/${BUILD_FOLDER}/'
         }
     }
 }
