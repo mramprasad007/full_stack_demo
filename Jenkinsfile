@@ -11,7 +11,6 @@ pipeline {
                 echo 'Installing source NPM dependencies...'
                 cd ${BASE_FOLDER}
                 npm install
-                npm install -g @angular/cli
             }
         }
         stage('Build') {
