@@ -25,7 +25,7 @@ pipeline {
         }
     }
     post {
-        Success {
+        success {
             archiveArtifacts artifacts: 'ng-demo/dist/**/*.*', caseSensitive: false
         }
     }
