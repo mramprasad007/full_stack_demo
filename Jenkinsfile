@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    tools {nodejs "node"}
     environment {
         BUILD_FOLDER="dist"
         BASE_FOLDER="ng-demo"
