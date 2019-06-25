@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo Build started on `date`
+                echo 'Build started'
                 ng build --${BUILD_ENV}   
             }
         }
