@@ -28,7 +28,7 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: '${BASE_FOLDER}/${BUILD_FOLDER}/'
+            archiveArtifacts artifacts: '${BASE_FOLDER}/${BUILD_FOLDER}/*.*'
         }
     }
 }
