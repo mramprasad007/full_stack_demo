@@ -1,8 +1,6 @@
 pipeline {
     agent any
     environment {
-        BUILD_FOLDER="dist"
-        BASE_FOLDER="ng-demo"
         BUILD_ENV = "prod"
     }
     stages {
@@ -10,7 +8,7 @@ pipeline {
             steps {
                 sh '''
                 echo 'Installing source NPM dependencies...'
-                cd ${BASE_FOLDER}
+                cd ng-demo
                 npm install
                 '''
             }
@@ -19,7 +17,7 @@ pipeline {
             steps {
                 sh '''
                 echo 'Build started'
-                cd ${BASE_FOLDER}
+                cd ng-demo
                 ng build --${BUILD_ENV}
                 echo 'Build Success'
                 '''
@@ -27,8 +25,8 @@ pipeline {
         }
     }
     post {
-        always {
-            archiveArtifacts artifacts: '${BASE_FOLDER}/${BUILD_FOLDER}/*.*'
+        Success {
+            archiveArtifacts artifacts: 'ng-demo/dist/**/*.*', caseSensitive: false
         }
     }
 }
