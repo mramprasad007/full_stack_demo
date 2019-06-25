@@ -3,6 +3,7 @@ pipeline {
     environment {
         BUILD_FOLDER="dist"
         BASE_FOLDER="ng-demo"
+        BUILD_ENV = "prod"
     }
     stages {
         stage('Install') {
