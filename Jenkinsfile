@@ -43,19 +43,23 @@ pipeline {
                                     execCommand: 
                                     '''
                                     sudo yum install -y httpd
-                                    sudo service httpd start
+                                    sudo service httpd restart
+                                    cd /
+                                    sudo chown -R -v ec2-user /var/www
+                                    sudo rm -f /var/www/html/*
+                                    sudo cp -r /home/ec2-user/build/. /var/www/html/
                                     ''',
                                     execTimeout: 120000, 
                                     flatten: true, 
                                     makeEmptyDirs: true, 
                                     noDefaultExcludes: false,
                                     patternSeparator: '[, ]+',
-                                    remoteDirectory: '/var/www/html/', 
+                                    remoteDirectory: '/home/ec2-user/build/', 
                                     remoteDirectorySDF: false, 
                                     removePrefix: '', 
                                     sourceFiles: 'ng-demo/dist/demo/',
                                     usePty: true
-                                )
+                            )
                             ], 
                             usePromotionTimestamp: false,
                             useWorkspaceInPromotion: false, 
