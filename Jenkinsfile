@@ -26,7 +26,7 @@ pipeline {
 
         stage('Archive'){
             steps{
-             archiveArtifacts artifacts: 'ng-demo/dist/**/*.*', caseSensitive: false
+             archiveArtifacts artifacts: 'ng-demo/dist/demo/**/*.*', caseSensitive: false
             }
         }
         
@@ -38,20 +38,24 @@ pipeline {
                             configName: 'ec2',
                              transfers: [
                                  sshTransfer(
-                                    cleanRemote: false,
+                                    cleanRemote: true,
                                     excludes: '',
                                     execCommand: 
-                                    '''yum install -y httpd
-                                        service httpd start''',
+                                    '''
+                                    sudo yum install -y httpd
+                                    sudo service httpd start
+                                    ''',
                                     execTimeout: 120000, 
-                                    flatten: false, 
+                                    flatten: true, 
                                     makeEmptyDirs: true, 
                                     noDefaultExcludes: false,
                                     patternSeparator: '[, ]+',
                                     remoteDirectory: '/var/www/html/', 
                                     remoteDirectorySDF: false, 
                                     removePrefix: '', 
-                                    sourceFiles: 'ng-demo/dist/demo/')
+                                    sourceFiles: 'ng-demo/dist/demo/',
+                                    usePty: true
+                                )
                             ], 
                             usePromotionTimestamp: false,
                             useWorkspaceInPromotion: false, 
