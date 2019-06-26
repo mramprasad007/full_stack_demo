@@ -23,10 +23,43 @@ pipeline {
                 '''
             }
         }
-    }
-    post {
-        success {
-            archiveArtifacts artifacts: 'ng-demo/dist/**/*.*', caseSensitive: false
+
+        stage('Archive'){
+            steps{
+             archiveArtifacts artifacts: 'ng-demo/dist/**/*.*', caseSensitive: false
+            }
+        }
+        
+        stage('Deploy'){
+            steps{
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'ec2',
+                             transfers: [
+                                 sshTransfer(
+                                    cleanRemote: false,
+                                    excludes: '',
+                                    execCommand: 
+                                    '''yum install -y httpd
+                                        service httpd start''',
+                                    execTimeout: 120000, 
+                                    flatten: false, 
+                                    makeEmptyDirs: true, 
+                                    noDefaultExcludes: false,
+                                    patternSeparator: '[, ]+',
+                                    remoteDirectory: '/var/www/html/', 
+                                    remoteDirectorySDF: false, 
+                                    removePrefix: '', 
+                                    sourceFiles: 'ng-demo/dist/demo/')
+                            ], 
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false, 
+                            verbose: false)
+                    ]
+                )
+            }
+
         }
     }
 }
